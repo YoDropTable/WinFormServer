@@ -18,7 +18,7 @@ Public Class Form1
         Dim ctThread As Thread = New Thread(AddressOf androidServer.StartServer)
         ctThread.IsBackground = True
         ctThread.Start()
-        VRServer = New ServerLogic(6969)
+        VRServer = New ServerLogic(6969, True)
         AddHandler VRServer.connected, AddressOf VRServerConnected
         AddHandler VRServer.messageRecieved, AddressOf VRMessageFromAndroid
 
@@ -29,7 +29,7 @@ Public Class Form1
 
     Private Sub VRMessageFromAndroid(sender As Object, e As myEventArgs)
         If AndroidCon = True Then
-            androidServer.addMessage(e.passedStuff.ToString)
+            androidServer.addMessage(e.passedStuff.FirstOrDefault.ToString)
         Else
             PrintStuff(TextBox1, "NO ANDROID CONNECTED!!!!")
         End If

@@ -27,8 +27,8 @@ Partial Class Form1
         Me.CloseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CloseToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -39,15 +39,15 @@ Partial Class Form1
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.0!))
         Me.TableLayoutPanel1.Controls.Add(Me.MenuStrip1, 0, 0)
-        Me.TableLayoutPanel1.Controls.Add(Me.TextBox1, 0, 2)
         Me.TableLayoutPanel1.Controls.Add(Me.FlowLayoutPanel1, 0, 1)
+        Me.TableLayoutPanel1.Controls.Add(Me.TextBox1, 0, 2)
         Me.TableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TableLayoutPanel1.Location = New System.Drawing.Point(0, 0)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
         Me.TableLayoutPanel1.RowCount = 3
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 42.0!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 58.75796!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.24204!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80.0!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.0!))
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(883, 628)
         Me.TableLayoutPanel1.TabIndex = 0
         '
@@ -72,7 +72,7 @@ Partial Class Form1
         'CloseToolStripMenuItem1
         '
         Me.CloseToolStripMenuItem1.Name = "CloseToolStripMenuItem1"
-        Me.CloseToolStripMenuItem1.Size = New System.Drawing.Size(103, 22)
+        Me.CloseToolStripMenuItem1.Size = New System.Drawing.Size(180, 22)
         Me.CloseToolStripMenuItem1.Text = "Close"
         '
         'ToolStripTextBox1
@@ -80,16 +80,6 @@ Partial Class Form1
         Me.ToolStripTextBox1.Name = "ToolStripTextBox1"
         Me.ToolStripTextBox1.ReadOnly = True
         Me.ToolStripTextBox1.Size = New System.Drawing.Size(300, 38)
-        '
-        'TextBox1
-        '
-        Me.TableLayoutPanel1.SetColumnSpan(Me.TextBox1, 2)
-        Me.TextBox1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.TextBox1.Location = New System.Drawing.Point(3, 389)
-        Me.TextBox1.Multiline = True
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(877, 236)
-        Me.TextBox1.TabIndex = 5
         '
         'FlowLayoutPanel1
         '
@@ -99,8 +89,18 @@ Partial Class Form1
         Me.FlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FlowLayoutPanel1.Location = New System.Drawing.Point(3, 45)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(877, 338)
+        Me.FlowLayoutPanel1.Size = New System.Drawing.Size(877, 462)
         Me.FlowLayoutPanel1.TabIndex = 6
+        '
+        'TextBox1
+        '
+        Me.TableLayoutPanel1.SetColumnSpan(Me.TextBox1, 2)
+        Me.TextBox1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.TextBox1.Location = New System.Drawing.Point(3, 513)
+        Me.TextBox1.Multiline = True
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(877, 112)
+        Me.TextBox1.TabIndex = 7
         '
         'Form1
         '
@@ -124,6 +124,6 @@ Partial Class Form1
     Friend WithEvents CloseToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CloseToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents ToolStripTextBox1 As ToolStripTextBox
-    Friend WithEvents TextBox1 As TextBox
     Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
+    Friend WithEvents TextBox1 As TextBox
 End Class

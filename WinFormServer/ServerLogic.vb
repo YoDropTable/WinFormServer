@@ -2,7 +2,6 @@
 Imports System.Net.Sockets
 Imports System.Text
 Imports System.Threading
-Imports WinFormServer
 
 Public Class ServerLogic
 
@@ -14,8 +13,10 @@ Public Class ServerLogic
     Public MyAddress As String
     Public serverSocket As TcpListener
     Public clientSocket As TcpClient
+    Public isVRClient As Boolean
 
-    Public Sub New(myPort As Integer)
+    Public Sub New(myPort As Integer, Optional isVR As Boolean = False)
+        isVRClient = isVR
         messageQueue = New Queue(Of String)
         ipHostInfo = Dns.GetHostEntry(Dns.GetHostName())
         ListOfAddres = New List(Of String)
@@ -36,7 +37,7 @@ Public Class ServerLogic
         serverSocket.Start()
         While True
             clientSocket = serverSocket.AcceptTcpClient()
-            Dim client As HandleClient = New HandleClient(messageQueue)
+            Dim client As HandleClient = New HandleClient(messageQueue, isVRClient)
             AddHandler client.Connected, AddressOf ClientConnected
             AddHandler client.MessageRecieved, AddressOf ClientMessageRecieved
             client.startClient(clientSocket)
@@ -53,6 +54,7 @@ Public Class ServerLogic
 
     Private Class HandleClient
 
+        Public isVR As Boolean
         Public Event MessageRecieved As EventHandler(Of myEventArgs)
         Public Event Connected As EventHandler(Of myEventArgs)
         Private myMessageQueue As Queue(Of String)
@@ -60,8 +62,9 @@ Public Class ServerLogic
 
         Private clNo As String
 
-        Public Sub New(ByRef messageQueu As Queue(Of String))
+        Public Sub New(ByRef messageQueu As Queue(Of String), isVRp As Boolean)
             myMessageQueue = messageQueu
+            isVR = isVRp
         End Sub
 
         Public Sub startClient(ByVal inClientSocket As TcpClient)
@@ -74,7 +77,6 @@ Public Class ServerLogic
             Dim requestCount As Integer = 0
             Dim connected As Boolean = True
 
-
             While (connected)
                 Try
                     If clientSocket.Connected Then
@@ -85,8 +87,11 @@ Public Class ServerLogic
                         Dim numberOfBytesRead As Integer = 0
                         Dim myMessage As String = ""
                         Do While networkStream.DataAvailable And myMessageQueue.Count = 0
-                            Dim getLenBytes As Byte() = New Byte(4) {}
+                            Dim getLenBytes As Byte() = New Byte(3) {}
                             networkStream.Read(getLenBytes, 0, 4)
+                            If BitConverter.IsLittleEndian And isVR Then
+                                Array.Reverse(getLenBytes)
+                            End If
                             numberOfBytesRead = BitConverter.ToInt32(getLenBytes, 0)
                             Dim getBytes As Byte() = New Byte(numberOfBytesRead - 1) {}
                             networkStream.Read(getBytes, 0, numberOfBytesRead)
@@ -106,6 +111,9 @@ Public Class ServerLogic
                                 RaiseEvent connected(Me, e)
                                 Dim sendBytes As Byte() = Encoding.UTF8.GetBytes(serverResponse)
                                 Dim num As Byte() = System.BitConverter.GetBytes(sendBytes.Length)
+                                If BitConverter.IsLittleEndian And isVR Then
+                                    Array.Reverse(num)
+                                End If
                                 networkStream.Write(num, 0, 4)
                                 networkStream.Write(sendBytes, 0, sendBytes.Length)
                             ElseIf myCommand(0).Contains("Disconnect") Then
@@ -121,6 +129,9 @@ Public Class ServerLogic
                             Dim message = myMessageQueue.Dequeue
                             Dim sendBytes As Byte() = Encoding.UTF8.GetBytes(message)
                             Dim num As Byte() = System.BitConverter.GetBytes(sendBytes.Length)
+                            If BitConverter.IsLittleEndian And isVR Then
+                                Array.Reverse(num)
+                            End If
                             networkStream.Write(num, 0, 4)
                             networkStream.Write(sendBytes, 0, sendBytes.Length)
                         End While
